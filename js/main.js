@@ -3,7 +3,15 @@ app = {
 	video: document.querySelector('video'),
 	debug: document.querySelector('.debug'),
 	init:() =>{
-		navigator.mediaDevices.enumerateDevices().then(app.listDevices);
+
+		navigator.mediaDevices.getUserMedia({audio: true, video: true})
+		.then(function(stream) {
+			navigator.mediaDevices.enumerateDevices().then(app.listDevices);
+		})
+		.catch(function(err) {
+			console.log('GUM failed with error, time diff: ', Date.now() - now);
+		});
+		
 	},
 
 	listDevices:(mediaDevice)=>{
